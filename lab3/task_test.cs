@@ -1,24 +1,23 @@
-﻿using Xunit;
-using ScrumBoard.Creator;
+using Xunit;
 using ScrumBoard.Body;
 
 namespace ScrumTest
 {
     public class TaskTests
     {
-        private ITask TrialTask()
+        private TaskId TrialTask()
         {
-            return Creator.CreateTask(TrialTitle, TrialDescription, TrialPriority);
+            return Creator.Create_task(TrialTitle, TrialDescription, TrialPriority);
         }
         private string TrialTitle = "Title";
         private string TrialDescription = "Description";
-        private TaskPriority TrialPriority = TaskPriority.MEDIUM;
+        private Task_priority TrialPriority = Task_priority.MEDIUM;
 
         [Fact]
-        public void CreateTaskToColumn()
+        public void Create_taskToColumn()
         {
 
-            ITask task = TrialTask();
+            TaskId task = TrialTask();
 
 
 
@@ -31,7 +30,7 @@ namespace ScrumTest
         public void Rename_task_title()
         {
 
-            ITask task = TrialTask();
+            TaskId task = TrialTask();
             string newTitle = "Updated";
 
             task.Title = newTitle;
@@ -40,11 +39,11 @@ namespace ScrumTest
         }
 
         [Fact]
-        public void ChangeTaskPriority()
+        public void ChangeTask_priority()
         {
 
-            ITask task = TrialTask();
-            TaskPriority newPriority = TaskPriority.HARD;
+            TaskId task = TrialTask();
+            Task_priority newPriority = Task_priority.HARD;
 
             task.Priority = newPriority;
 
@@ -54,7 +53,7 @@ namespace ScrumTest
         [Fact]
         public void RenameTaskDescription()
         {
-            ITask task = TrialTask();
+            TaskId task = TrialTask();
             string newDescription = "Updated";
 
             task.Description = newDescription;
