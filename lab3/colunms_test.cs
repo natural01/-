@@ -1,5 +1,4 @@
-﻿using Xunit;
-using ScrumBoard.Creator;
+using Xunit;
 using ScrumBoard.Body;
 
 namespace ScrumTest
@@ -9,40 +8,40 @@ namespace ScrumTest
         private string TrialTitle = "Column title";
         private string TrialTaskTitle = "Task title";
         private string TrialDescription = "Description";
-        private TaskPriority TrialPriority = TaskPriority.MEDIUM;
+        private Task_priority TrialPriority = Task_priority.MEDIUM;
 
         [Fact]
-        public void CreateColumnToBoard()
+        public void Create_columnToBoard()
         {
-            IColumn column = TrialColumn();
+            ColumnI column = TrialColumn();
 
             Assert.Equal(TrialTitle, column.Title);
-            Assert.Empty(column.FindTasks());
+            Assert.Empty(column.Find_tasks());
         }
 
         [Fact]
         public void RemoveTaskFromColumn()
         {
 
-            IColumn column = TrialColumn();
-            ITask task = TrialTask();
-            column.AddTask(task);
+            ColumnI column = TrialColumn();
+            TaskId task = TrialTask();
+            column.Add_task(task);
 
-            column.DeleteTaskByTitle(task.Title);
+            column.Delete_task_by_title(task.Title);
 
-            Assert.Empty(column.FindTasks());
+            Assert.Empty(column.Find_tasks());
         }
 
         [Fact]
-        public void AddTaskToColumnInBoard()
+        public void Add_taskToColumnInBoard()
         {
 
-            IColumn column = TrialColumn();
-            ITask task = TrialTask();
+            ColumnI column = TrialColumn();
+            TaskId task = TrialTask();
 
-            column.AddTask(task);
+            column.Add_task(task);
 
-            Assert.Collection(column.FindTasks(),
+            Assert.Collection(column.Find_tasks(),
             columnTask => Assert.Equal(task, columnTask));
         }
 
@@ -50,7 +49,7 @@ namespace ScrumTest
         public void ChangeColumnTitleInBoard()
         {
 
-            IColumn column = TrialColumn();
+            ColumnI column = TrialColumn();
             string newTitle = "Updated";
 
             column.Title = newTitle;
@@ -58,14 +57,14 @@ namespace ScrumTest
             Assert.Equal(newTitle, column.Title);
         }
 
-        private IColumn TrialColumn()
+        private ColumnI TrialColumn()
         {
-            return Creator.CreateColumn(TrialTitle); ;
+            return Creator.Create_column(TrialTitle); ;
         }
 
-        private ITask TrialTask()
+        private TaskId TrialTask()
         {
-            return Creator.CreateTask(TrialTaskTitle, TrialDescription, TrialPriority);
+            return Creator.Create_task(TrialTaskTitle, TrialDescription, TrialPriority);
         }
     }
 }
