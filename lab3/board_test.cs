@@ -1,7 +1,5 @@
-﻿using Xunit;
-using ScrumBoard.Creator;
+using Xunit;
 using ScrumBoard.Body;
-using ScrumBoard.MaximumColumns;
 
 namespace ScrumTest
 {
@@ -11,86 +9,72 @@ namespace ScrumTest
         private string TrialColumnTitle = "Column Title";
         private string TrialTaskTitle = "Task Title";
         private string TrialDescription = "Description";
-        private TaskPriority TrialPriority = TaskPriority.MEDIUM;
-        private IBoard TrialBoard()
+        private Task_priority TrialPriority = Task_priority.MEDIUM;
+        private BoardI TrialBoard()
         {
-            return Creator.CreateBoard(TrialTitle);
+            return Creator.Create_board(TrialTitle);
         }
 
-        private IColumn TrialColumn()
+        private ColumnI TrialColumn()
         {
-            return Creator.CreateColumn(TrialColumnTitle);
+            return Creator.Create_column(TrialColumnTitle);
         }
 
-        private ITask TrialTask()
+        private TaskId TrialTask()
         {
-            return Creator.CreateTask(TrialTaskTitle, TrialDescription, TrialPriority);
-        }
-
-        [Fact]
-        public void IfCountOfColumnsMoreThan10()
-        {
-
-            IBoard board = TrialBoard();
-
-            for (int n = 0; n < 10; n++)
-            {
-                board.AddColumn(Creator.CreateColumn(n.ToString()));
-            }
-
-            Assert.Throws<Maximum_columns>(() => board.AddColumn(TrialColumn()));
+            return Creator.Create_task(TrialTaskTitle, TrialDescription, TrialPriority);
         }
 
         [Fact]
-        public void CreateBoard()
+        public void Create_board()
         {
-            IBoard board = TrialBoard();
+            BoardI board = TrialBoard();
 
             Assert.Equal(TrialTitle, board.Title);
         }
 
         [Fact]
-        public void FindColumnByTitleOnBoard()
+        public void Find_column_by_titleOnBoard()
         {
 
-            IBoard board = TrialBoard();
-            IColumn column = TrialColumn();
+            BoardI board = TrialBoard();
+            ColumnI column = TrialColumn();
 
-            board.AddColumn(column);
+            board.Add_column(column);
 
-            Assert.Equal(column, board.FindColumnByTitle(column.Title));
+            Assert.Equal(column, board.Find_column_by_title(column.Title));
         }
 
         [Fact]
-        public void DeleteTaskFromColumn()
+        public void Delete_taskFromColumn()
         {
 
-            IBoard board = TrialBoard();
-            IColumn column = TrialColumn();
-            board.AddColumn(column);
-            ITask task = TrialTask();
-            column.AddTask(task);
+            BoardI board = TrialBoard();
+            ColumnI column = TrialColumn();
+            board.Add_column(column);
+            TaskId task = TrialTask();
+            column.Add_task(task);
 
-            board.DeleteTask(task.Title);
+            board.Delete_task(task.Title);
 
-            Assert.Empty(column.FindTasks());
+            Assert.Empty(column.Find_tasks());
         }
         [Fact]
         public void MoveTasksOnBoard()
         {
 
-            IBoard board = TrialBoard();
-            IColumn column_Number1 = Creator.CreateColumn("Number1");
-            IColumn column_Number2 = Creator.CreateColumn("Number2");
-            board.AddColumn(column_Number1);
-            board.AddColumn(column_Number2);
-            ITask task = TrialTask();
-            board.AddTaskToColumn(task);
+            BoardI board = TrialBoard();
+            ColumnI column_Number1 = Creator.Create_column("Number1");
+            ColumnI column_Number2 = Creator.Create_column("Number2");
+            board.Add_column(column_Number1);
+            board.Add_column(column_Number2);
+            TaskId task = TrialTask();
+            board.Add_task_to_column(task);
 
-            board.MoveTask(task.Title);
+            board.Move_task(task.Title);
 
-            Assert.Empty(column_Number1.FindTasks());
-            Assert.Collection(column_Number2.FindTasks(),
+            Assert.Empty(column_Number1.Find_tasks());
+            Assert.Collection(column_Number2.Find_tasks(),
             column_Task => Assert.Equal(task, column_Task));
         }
 
